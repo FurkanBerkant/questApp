@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "like")
+@Table(name = "like",schema = "public")
 public class Like {
 
     @Id

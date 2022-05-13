@@ -1,8 +1,12 @@
 package com.project.questDemo.business.concretes;
 
 import com.project.questDemo.business.abstracts.LikeService;
+import com.project.questDemo.config.dtoConverter.DtoConverterService;
 import com.project.questDemo.dataAccess.LikeDao;
+import com.project.questDemo.entities.Dto.LikeRequest;
+import com.project.questDemo.entities.Dto.LikeResponse;
 import com.project.questDemo.entities.concretes.Like;
+import com.project.questDemo.entities.concretes.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +19,21 @@ public class LikeManager implements LikeService {
     @Autowired
     private LikeDao likeDao;
 
+    @Autowired
+    private DtoConverterService dtoConverterService;
 
     @Override
-    public List<Like> getAll(Optional<Integer> likeId) {
+    public List<LikeResponse> getAll(Optional<Integer> likeId) {
         if (likeId.isPresent()){
-            return likeDao.findByUserId(likeId.get());
+            return dtoConverterService.dtoConverter(likeDao.findByUserId(likeId.get()),LikeResponse.class);
         }
         System.out.println("like'lar Listelendi");
-        return likeDao.findAll();
+        return dtoConverterService.dtoConverter(likeDao.findAll(),LikeResponse.class);
     }
 
     @Override
-    public Like add(Like like) {
-        return likeDao.save(like);
+    public Like add(LikeRequest likeRequest) {
+        return likeDao.save((Like) dtoConverterService.dtoClassConverter(likeRequest, Like.class));
     }
 
     @Override

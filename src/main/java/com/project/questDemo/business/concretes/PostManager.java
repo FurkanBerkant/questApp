@@ -1,9 +1,12 @@
 package com.project.questDemo.business.concretes;
 
 import com.project.questDemo.business.abstracts.PostService;
+import com.project.questDemo.config.dtoConverter.DtoConverterService;
 import com.project.questDemo.dataAccess.PostDao;
+import com.project.questDemo.dataAccess.UserDao;
 import com.project.questDemo.entities.Dto.PostRequest;
 import com.project.questDemo.entities.concretes.Post;
+import com.project.questDemo.entities.concretes.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,10 @@ import java.util.Optional;
 public class PostManager implements PostService {
     @Autowired
     private PostDao postDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private DtoConverterService dtoConverterService;
     @Override
     public List<Post> getAll(Optional<Integer> userId) {
         if (userId.isPresent()){
@@ -24,28 +31,29 @@ public class PostManager implements PostService {
     }
 
     @Override
-    public PostRequest add(PostRequest postRequest) {
+    public Post add(PostRequest postRequest) {
         System.out.println("eklendi");
 
-        return postDao.save(postRequest);
+        return postDao.save((Post) dtoConverterService.dtoClassConverter(postRequest,Post.class));
     }
 
     @Override
-    public Post getOnePostById(int id) {
-        return postDao.findById(id);
+    public Post getOnePostById(int postId) {
+        return postDao.findById(postId);
     }
 
     @Override
-    public Post updateOnePost(int postId, Post newPost) {
+    public Post updateOnePostById(int postId, PostRequest updatePost) {
+
         Optional<Post> post = Optional.ofNullable(postDao.findById(postId));
-        if (post.isPresent()) {
-            Post foundUser = post.get();
-            foundUser.setText(newPost.getText());
-            foundUser.setTitle(newPost.getTitle());
-            postDao.save(foundUser);
-            return foundUser;
-        } else
-            return null;
+        if(post.isPresent()) {
+            Post toUpdate = post.get();
+            toUpdate.setText(updatePost.getText());
+            toUpdate.setTitle(updatePost.getTitle());
+            postDao.save(toUpdate);
+            return toUpdate;
+        }
+        return null;
     }
 
     @Override

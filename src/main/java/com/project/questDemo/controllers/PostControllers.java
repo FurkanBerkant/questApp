@@ -2,6 +2,7 @@ package com.project.questDemo.controllers;
 
 import com.project.questDemo.business.abstracts.PostService;
 import com.project.questDemo.entities.Dto.PostRequest;
+import com.project.questDemo.entities.Dto.PostResponse;
 import com.project.questDemo.entities.concretes.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class PostControllers {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<PostRequest> add(@RequestBody PostRequest postRequest){
+    public ResponseEntity<?> add(@RequestBody PostRequest postRequest){
         return ResponseEntity.ok(postService.add(postRequest));
     }
     @GetMapping("/{postId}")
@@ -31,9 +32,9 @@ public class PostControllers {
     }
     @PutMapping("/{postId}")
     public Post updateOneUser(@PathVariable int postId,
-                              @RequestBody Post newPost)
+                              @RequestBody PostRequest updatePost)
     {
-        return postService.updateOnePost(postId,newPost);
+        return postService.updateOnePostById(postId,updatePost);
     }
     @DeleteMapping("/{postId}")
     public void deleteOneUser(@PathVariable int postId) {

@@ -2,6 +2,8 @@ package com.project.questDemo.controllers;
 
 
 import com.project.questDemo.business.abstracts.LikeService;
+import com.project.questDemo.entities.Dto.LikeRequest;
+import com.project.questDemo.entities.Dto.LikeResponse;
 import com.project.questDemo.entities.concretes.Like;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,13 @@ public class LikeControllers {
     private LikeService likeService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Like>> getAll(@RequestParam Optional<Integer> likeId){
+    public ResponseEntity<List<LikeResponse>> getAll(@RequestParam Optional<Integer> likeId){
         return ResponseEntity.ok(likeService.getAll(likeId));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Like> add(@RequestBody Like like){
-        return ResponseEntity.ok(likeService.add(like));
+    public ResponseEntity<?> add(@RequestBody LikeRequest likeRequest){
+        return ResponseEntity.ok(likeService.add(likeRequest));
     }
     @GetMapping("/{likeId}")
     public Like getOneLike (@PathVariable int likeId){
