@@ -2,6 +2,7 @@ package com.example.questapp.controllers;
 
 import com.example.questapp.model.Post;
 import com.example.questapp.model.dto.PostCreateRequest;
+import com.example.questapp.model.dto.PostResponse;
 import com.example.questapp.service.abstracts.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class PostController {
     private PostService postService;
 
     @GetMapping()
-    public ResponseEntity<List<Post>> getAll(@RequestParam Optional<Long> userId){
+    public ResponseEntity<List<PostResponse>> getAll(@RequestParam Optional<Long> userId){
         return new ResponseEntity<>(postService.findAll(userId), HttpStatus.OK);
     }
     @GetMapping("/{postId}")
