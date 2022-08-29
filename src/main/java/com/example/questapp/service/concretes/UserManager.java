@@ -32,7 +32,7 @@ public class UserManager implements UserService {
         Optional<User> user = Optional.ofNullable(userRepository.getOneUserById(userId));
         if (user.isPresent()) {
             User foundUser = user.get();
-            foundUser.setUser_name(newUser.getUser_name());
+            foundUser.setUserName(newUser.getUserName());
             foundUser.setPassword(newUser.getPassword());
             userRepository.save(foundUser);
             return foundUser;
@@ -43,5 +43,10 @@ public class UserManager implements UserService {
     @Override
     public void deleteById(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User getOneUserByUserName(String user_name) {
+        return userRepository.findByUserName(user_name);
     }
 }

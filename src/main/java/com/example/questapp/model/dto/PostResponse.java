@@ -13,12 +13,5 @@ public class PostResponse {
     private String title;
     private String text;
     private List<LikeResponse> postLikes;
-    public PostResponse(Post entity, List<LikeResponse> likes) {
-        this.id = entity.getId();
-        this.userId = entity.getUser().getId();
-        this.userName = entity.getUser().getUser_name();
-        this.title = entity.getTitle();
-        this.text = entity.getText();
-        this.postLikes = likes;
-    }
+
 }
