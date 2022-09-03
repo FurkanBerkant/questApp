@@ -3,6 +3,8 @@ package com.example.questapp.config;
 import com.example.questapp.security.JwtAuthenticationEntryPoint;
 import com.example.questapp.security.JwtAuthenticationFilter;
 import com.example.questapp.service.concretes.UserDetailsServiceImpl;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -22,16 +24,12 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtAuthenticationEntryPoint handler;
-
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthenticationEntryPoint handler) {
-        this.userDetailsService = userDetailsService;
-        this.handler = handler;
-    }
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {

@@ -14,7 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 public class JwtUserDetails implements UserDetails {
-    private Long id;
+
+    public Long id;
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
@@ -26,11 +27,12 @@ public class JwtUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
-    public static JwtUserDetails create(User user){
-        List<GrantedAuthority> authoritiesList=new ArrayList<>();
+    public static JwtUserDetails create(User user) {
+        List<GrantedAuthority> authoritiesList = new ArrayList<>();
         authoritiesList.add(new SimpleGrantedAuthority("user"));
-        return new JwtUserDetails(user.getId(),user.getUserName(),user.getPassword(),authoritiesList);
+        return new JwtUserDetails(user.getId(), user.getUserName(), user.getPassword(), authoritiesList);
     }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -50,4 +52,5 @@ public class JwtUserDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

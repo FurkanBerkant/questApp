@@ -8,32 +8,21 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
 @Data
-@Table(name = "comment")
-public class Comment {
-
+@Entity
+@Table(name="refresh_token")
+public class RefreshToken {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Post post;
-
-    @ManyToOne(fetch=FetchType.LAZY)
+    Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private User user;
-
-    @Column(name = "text")
-    private String text;
+    User user;
+    @Column(nullable = false,unique = true)
+    String token;
+    @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "createDate")
-    Date createDate=new Date();
+    Date expiryDate;
 }
