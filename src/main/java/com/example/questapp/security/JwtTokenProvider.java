@@ -41,11 +41,15 @@ public class JwtTokenProvider {
         try {
             Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token);
             return !isTokenExpired(token);
-        } catch (SignatureException |
-                 MalformedJwtException |
-                 IllegalArgumentException |
-                 UnsupportedJwtException |
-                 ExpiredJwtException e) {
+        } catch (SignatureException e) {
+            return false;
+        } catch (MalformedJwtException e) {
+            return false;
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (UnsupportedJwtException e) {
+            return false;
+        } catch (IllegalArgumentException e) {
             return false;
         }
     }
@@ -54,4 +58,5 @@ public class JwtTokenProvider {
         Date expiration = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(token).getBody().getExpiration();
         return expiration.before(new Date());
     }
+
 }

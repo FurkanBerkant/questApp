@@ -1,6 +1,7 @@
 package com.example.questapp.security;
 
 import com.example.questapp.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
